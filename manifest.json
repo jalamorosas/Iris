@@ -28,7 +28,6 @@
       }
     ],
     "background": {
-        "script": "speak.js",
       "service_worker": "background.js"
     }
   }

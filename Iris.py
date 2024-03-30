@@ -194,6 +194,20 @@ class WebAgent:
         else:
             print("No action found in the response")
             return "no_action_found"
+
+    def summarize_webpage_content(self, webpage_content):
+        print("Generating summary of the current webpage content...")
+
+        response = self.client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=[
+                {"role": "user", "content": f"Please provide a concise summary of the current webpage content to help someone who can't see understand the page. Focus on the main elements, headings, and content.\n\nWebpage content:\n{webpage_content}\n\nSummary:"}
+            ]
+        )
+
+        summary = response.choices[0].message.content.strip()
+        print(f"Webpage content summary: {summary}")
+        return summary
     
     def run_voice(self, voice_prompt):
           # Main loop to prompt for actions and execute generated Selenium code
@@ -231,7 +245,11 @@ class WebAgent:
 
                     if result == "complete":
                         print("Task completed.")
-                        break
+                         # Generate a summary of the current webpage content
+                        webpage_summary = self.summarize_webpage_content(webpage_content)
+                        print(f"Webpage summary: {webpage_summary}")
+                        return webpage_summary
+                        
 
                     # Add the completed task to the list
                     completed_tasks.append(result)
@@ -286,6 +304,9 @@ class WebAgent:
 
                     if result == "complete":
                         print("Task completed.")
+                        # Generate a summary of the current webpage content
+                        webpage_summary = self.summarize_webpage_content(webpage_content)
+                        print(f"Webpage summary: {webpage_summary}")
                         break
 
                     # Add the completed task to the list

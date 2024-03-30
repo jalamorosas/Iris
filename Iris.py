@@ -163,60 +163,64 @@ def get_selenium_code(prompt, webpage_content, error_message=None):
     else:
         print("No code found in the response")
         return ""
-
+    
+def main(prompt_str):
 # Main loop to prompt for actions and execute generated Selenium code
-while True:
-    # Prompt the user for an action
-    prompt = input("Enter an action to perform in the browser (or 'quit' to exit): ")
-    
-    if prompt.lower() == "quit":
-        break
-    
-    try:
-        completed_tasks = []
+    while True:
+        # Prompt the user for an action
+        prompt = prompt_str
         
-        # Get the current webpage content using BeautifulSoup
-        webpage_content = BeautifulSoup(driver.page_source, "html.parser")
-        webpage_content = preprocess_html_for_llm(webpage_content)
-        print(f"Current webpage content: {webpage_content}")
+        if prompt.lower() == "quit":
+            break
         
-        while True:
-            # Determine the next step based on the current webpage content, task, and completed tasks
-            next_step = determine_next_step(prompt, webpage_content, completed_tasks)
+        try:
+            completed_tasks = []
             
-            if next_step == "complete":
-                print("Task completed.")
-                break
-            elif next_step is None:
-                print("Unable to determine the next step. Exiting.")
-                break
-            
-            print(f"Next step: {next_step}")
-            
-            error_message = None
-            while True:
-                # Get the Selenium code for the next step
-                selenium_code = get_selenium_code(next_step, webpage_content, error_message)
-                print(f"Generated Selenium code: {selenium_code}")
-                
-                try:
-                    # Execute the generated Selenium code
-                    exec(selenium_code, {'driver': driver, 'By': By, 'WebDriverWait': WebDriverWait, 'EC': EC})
-                    completed_tasks.append(next_step)  # Add the completed task to the list
-                    break  # If no error occurs, break the loop and move to the next step
-                except Exception as e:
-                    error_message = str(e)
-                    print(f"Error: {error_message}")
-                    # If an error occurs, prompt the AI to fix the code and retry
-            
-            # Update the webpage content after executing the step
+            # Get the current webpage content using BeautifulSoup
             webpage_content = BeautifulSoup(driver.page_source, "html.parser")
             webpage_content = preprocess_html_for_llm(webpage_content)
-            print(f"Updated webpage content: {webpage_content}")
-        
-        print("Action performed successfully.")
-    except Exception as e:
-        print(f"Error: {str(e)}")
+            print(f"Current webpage content: {webpage_content}")
+            
+            while True:
+                # Determine the next step based on the current webpage content, task, and completed tasks
+                next_step = determine_next_step(prompt, webpage_content, completed_tasks)
+                
+                if next_step == "complete":
+                    print("Task completed.")
+                    break
+                elif next_step is None:
+                    print("Unable to determine the next step. Exiting.")
+                    break
+                
+                print(f"Next step: {next_step}")
+                
+                error_message = None
+                while True:
+                    # Get the Selenium code for the next step
+                    selenium_code = get_selenium_code(next_step, webpage_content, error_message)
+                    print(f"Generated Selenium code: {selenium_code}")
+                    
+                    try:
+                        # Execute the generated Selenium code
+                        exec(selenium_code, {'driver': driver, 'By': By, 'WebDriverWait': WebDriverWait, 'EC': EC})
+                        completed_tasks.append(next_step)  # Add the completed task to the list
+                        break  # If no error occurs, break the loop and move to the next step
+                    except Exception as e:
+                        error_message = str(e)
+                        print(f"Error: {error_message}")
+                        # If an error occurs, prompt the AI to fix the code and retry
+                
+                # Update the webpage content after executing the step
+                webpage_content = BeautifulSoup(driver.page_source, "html.parser")
+                webpage_content = preprocess_html_for_llm(webpage_content)
+                print(f"Updated webpage content: {webpage_content}")
+            
+            print("Action performed successfully.")
+        except Exception as e:
+            print(f"Error: {str(e)}")
 
-# Quit the WebDriver
-driver.quit()
+    # Quit the WebDriver
+    driver.quit()
+    
+
+    

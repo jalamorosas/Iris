@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import Iris
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -19,14 +20,13 @@ def command():
 #Taking in some text from content via bs4, feeding into generative ai
 @app.route('/generate_text', methods=['POST'])
 def generate_text():
-    print("generating text")
     data = request.json
     text = data.get('text')
     print("Received text: " + text)
-    
+    Iris.main(text)
     return jsonify(
         {
-        'text': 'hello, returning as response fat fuck'
+        'text': 'hello'
         }
     )
     

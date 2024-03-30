@@ -12,8 +12,8 @@ class WebAgent:
     def __init__(self):
         self.browser = webdriver.Chrome()  # Make sure you have ChromeDriver installed and in PATH
         self.browser.set_window_size(1280, 1080)
-        self.client = openai.OpenAI(api_key= '') #os.environ["OPENAI_API_KEY"])  # Initialize the OpenAI client
-        
+        self.client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])  # Initialize the OpenAI client
+
     def go_to_page(self, url):
         self.browser.get(url if "://" in url else "http://" + url)
 
@@ -194,6 +194,20 @@ class WebAgent:
         else:
             print("No action found in the response")
             return "no_action_found"
+
+    def summarize_webpage_content(self, original_prompt, webpage_content):
+        print("Generating summary of the current webpage content...")
+
+        response = self.client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=[
+                {"role": "user", "content": f"Please provide a concise summary of the current webpage content to help someone who can't see understand the page. Focus on the main elements, headings, and content that are relevant to the user's original prompt: '{original_prompt}'. Keep your response to about three sentences less than 50 words about potential actions the user might want to perform based on their original prompt. \n\nWebpage content:\n{webpage_content}\n\nSummary:"}
+            ]
+        )
+
+        summary = response.choices[0].message.content.strip()
+        print(f"Webpage content summary: {summary}")
+        return summary
     
     def run_voice(self, voice_prompt):
           # Main loop to prompt for actions and execute generated Selenium code
@@ -232,7 +246,7 @@ class WebAgent:
                     if result == "complete":
                         print("Task completed.")
                          # Generate a summary of the current webpage content
-                        webpage_summary = self.summarize_webpage_content(webpage_content)
+                        webpage_summary = self.summarize_webpage_content(prompt, webpage_content)
                         print(f"Webpage summary: {webpage_summary}")
                         return webpage_summary
                         
@@ -246,6 +260,9 @@ class WebAgent:
                     print(f"Updated webpage content: {webpage_content}")
 
                     sleep(3)
+                if result == "complete":
+                    print("Action performed successfully. Exiting.")
+                    break
                 
                 print("Action performed successfully.")
             except Exception as e:
@@ -290,6 +307,9 @@ class WebAgent:
 
                     if result == "complete":
                         print("Task completed.")
+                        # Generate a summary of the current webpage content
+                        webpage_summary = self.summarize_webpage_content(webpage_content)
+                        print(f"Webpage summary: {webpage_summary}")
                         break
 
                     # Add the completed task to the list

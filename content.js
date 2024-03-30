@@ -151,7 +151,7 @@ recognition.onresult = (event) => {
     }
     console.log(transcript)
     //var textToSpeak = prompt("wyoyoy");
-    chrome.runtime.sendMessage({ action: "speak", text: "ell" });
+    //chrome.runtime.sendMessage({ action: "speak", text: "ell" });
     //chrome.tts.speak("hello");
     insertTextAtCursor(transcript);
 };

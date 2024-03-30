@@ -150,9 +150,9 @@ recognition.onresult = (event) => {
         return;
     }
     console.log(transcript)
-    var textToSpeak = prompt("wyoyoy");
-    //chrome.runtime.sendMessage({ action: "speak", text: textToSpeak });
-    chrome.tts.speak("hello");
+    //var textToSpeak = prompt("wyoyoy");
+    chrome.runtime.sendMessage({ action: "speak", text: "ell" });
+    //chrome.tts.speak("hello");
     insertTextAtCursor(transcript);
 };
 

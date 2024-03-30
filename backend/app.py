@@ -25,10 +25,10 @@ def generate_text():
     text = data.get('text')
     print("Received text: " + text)
     webagent = WebAgent()
-    webagent.run_voice(text)
+    response = webagent.run_voice(text)
     return jsonify(
         {
-        'text': 'hello'
+        'text': response
         }
     )
     

@@ -231,8 +231,11 @@ class WebAgent:
 
                     if result == "complete":
                         print("Task completed.")
-                        exit(0)
-                        break
+                         # Generate a summary of the current webpage content
+                        webpage_summary = self.summarize_webpage_content(webpage_content)
+                        print(f"Webpage summary: {webpage_summary}")
+                        return webpage_summary
+                        
 
                     # Add the completed task to the list
                     completed_tasks.append(result)

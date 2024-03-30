@@ -1,0 +1,34 @@
+{
+    "manifest_version": 3,
+    "name": "Iris",
+    "version": "1.0",
+    "description": "Convert speech to text and insert it into the focused input field.",
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "scripting",
+        "commands",
+        "tts"
+    ],
+    "action": {
+      "default_title": "Toggle Speech to Text"
+    },
+    "commands": {
+      "toggle_speech_to_text": {
+        "suggested_key": {
+            "default": "Alt+I"
+        },
+        "description": "Toggle Speech to Text"
+      }
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ],
+    "background": {
+        "script": "speak.js",
+      "service_worker": "background.js"
+    }
+  }

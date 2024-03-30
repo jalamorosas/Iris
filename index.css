@@ -1,0 +1,4 @@
+#speechToTextButton {
+    /* Your existing styles */
+    transition: width 0.3s ease, height 0.3s ease;
+  }

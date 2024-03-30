@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Draggable Button</title>
+<style>
+  #draggableButton {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<button id="draggableButton">Drag Me</button>
+
+<script>
+// Get the button element
+var button = document.getElementById('draggableButton');
+
+// Variables to keep track of mouse position and button position
+var offsetX, offsetY, isDragging = false, hasDragged = false;
+
+// Function to handle mouse down event
+function handleMouseDown(e) {
+  // Calculate offset between mouse position and button position
+  offsetX = e.clientX - button.offsetLeft;
+  offsetY = e.clientY - button.offsetTop;
+  // Set dragging state to true
+  isDragging = true;
+}
+
+// Function to handle mouse move event
+function handleMouseMove(e) {
+  // If dragging, update button position based on mouse position
+  if (isDragging) {
+    button.style.left = (e.clientX - offsetX) + 'px';
+    button.style.top = (e.clientY - offsetY) + 'px';
+    hasDragged = true;
+  }
+}
+
+// Function to handle mouse up event
+function handleMouseUp(e) {
+  // Reset dragging state to false
+  isDragging = false;
+}
+
+// Function to handle button click event
+function handleButtonClick(e) {
+  // Perform different action when button is clicked
+  if (!hasDragged) {
+    alert("Button Clicked!");
+  }
+  // Reset hasDragged variable
+  hasDragged = false;
+}
+
+// Add event listeners for mouse events
+button.addEventListener('mousedown', handleMouseDown);
+button.addEventListener('mouseup', handleMouseUp);
+document.addEventListener('mousemove', handleMouseMove);
+
+// Add event listener for button click
+button.addEventListener('click', handleButtonClick);
+</script>
+
+</body>
+</html>

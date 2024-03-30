@@ -18,7 +18,6 @@ async function toggleSpeechToText() {
  
   chrome.commands.onCommand.addListener((command) => {
     if (command === "toggle_speech_to_text") {
-        //chrome.tts.speak("fuck you");
       toggleSpeechToText();
     }
   });

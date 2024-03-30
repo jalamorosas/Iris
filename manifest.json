@@ -4,6 +4,7 @@
     "version": "1.0",
     "description": "Convert speech to text and insert it into the focused input field.",
     "permissions": [
+        "http://localhost:5000/*",
         "activeTab",
         "tabs",
         "scripting",

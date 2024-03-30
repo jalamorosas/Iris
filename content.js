@@ -154,6 +154,7 @@ recognition.onresult = (event) => {
     //chrome.runtime.sendMessage({ action: "speak", text: "ell" });
     //chrome.tts.speak("hello");
     insertTextAtCursor(transcript);
+    sendSpeechToFlask(transcript);
 };
 
 recognition.onend = () => {
@@ -189,4 +190,19 @@ function toggleRecognition() {
       button.style.width = "60px";
       button.style.height = "60px";
   }
+}
+
+function sendSpeechToFlask(text){
+    fetch('http://127.0.0.1:5000/generate_text', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text })
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log('Response from Flask:',data);
+        })
+        .catch(error=> console.error('Error:', error));
 }

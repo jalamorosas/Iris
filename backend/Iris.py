@@ -203,7 +203,7 @@ class WebAgent:
         response = self.client.chat.completions.create(
             model="gpt-4-turbo-preview",
             messages=[
-                {"role": "user", "content": f"Please provide a concise summary of the current webpage content to help someone who can't see understand the page. Focus on the main elements, headings, and content that are relevant to the user's original prompt: '{original_prompt}'. Keep your response to about three sentences less than 50 words about potential actions the user might want to perform based on their original prompt. \n\nWebpage content:\n{webpage_content}\n\nSummary:"}
+                {"role": "user", "content": f"Please provide a concise summary of the current webpage content to help someone who can't see understand the page. Focus on the main elements, headings, and content that are relevant to the user's original prompt: '{original_prompt}'. Your reponse has to be less than 15 words long, 1 sentence. \n\nWebpage content:\n{webpage_content}\n\nSummary:"}
             ]
         )
 
@@ -271,7 +271,7 @@ class WebAgent:
                 print(f"Error: {str(e)}")
         
         # Quit the WebDriver
-        self.browser.quit() 
+        #self.browser.quit() 
 
     def run(self):
         # Main loop to prompt for actions and execute generated Selenium code
@@ -329,9 +329,9 @@ class WebAgent:
                 print(f"Error: {str(e)}")
         
         # Quit the WebDriver
-        self.browser.quit()
+        #self.browser.quit()
 
 if __name__ == "__main__":
     agent = WebAgent()
     agent.run()
-    agent.close()
+    #agent.close()

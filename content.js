@@ -171,11 +171,11 @@ recognition.onresult = (event) => {
             console.log("The word 'cursor' is not found in the transcript.");
         }
     }
-    if(transcript.toLowerCase().includes("go to")){
-        let cursorIndex = transcript.toLowerCase().indexOf("go to");
+    if(transcript.toLowerCase().includes("iris")){
+        let cursorIndex = transcript.toLowerCase().indexOf("iris");
 
         if (cursorIndex !== -1) {
-            let remainingString = transcript.substring(cursorIndex);
+            let remainingString = transcript.substring("iris".length +1 + cursorIndex);
             console.log(remainingString);
             sendSpeechToFlask(remainingString);
         } else {

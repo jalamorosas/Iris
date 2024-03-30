@@ -260,6 +260,9 @@ class WebAgent:
                     print(f"Updated webpage content: {webpage_content}")
 
                     sleep(3)
+                if result == "complete":
+                    print("Action performed successfully. Exiting.")
+                    break
                 
                 print("Action performed successfully.")
             except Exception as e:
@@ -328,5 +331,5 @@ class WebAgent:
 
 if __name__ == "__main__":
     agent = WebAgent()
-    agent.run()
+    agent.run_voice("Go to the university of pittsburgh website")
     agent.close()

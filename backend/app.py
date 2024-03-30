@@ -26,7 +26,7 @@ def generate_text():
     
     return jsonify(
         {
-        'text': 'hello, returning'
+        'text': 'hello, returning as response fat fuck'
         }
     )
     

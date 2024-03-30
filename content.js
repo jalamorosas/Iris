@@ -1,3 +1,4 @@
+//import './styles.css'; // Import CSS file
 const button = document.createElement("button");
 button.id = "speechToTextButton";
 button.textContent = "🎙️";
@@ -135,8 +136,10 @@ recognition.onresult = (event) => {
     console.log("End of recognition");
 
     const transcript = event.results[event.results.length - 1][0].transcript;
+    console.log(transcript);
     // Check if the send keyword is included
-    if (transcript.toLowerCase().includes("stop")) {
+    if (transcript.toLowerCase().includes("submit")) {
+        toggleRecognition();
         const el = document.activeElement;
         const e = new KeyboardEvent("keydown", {
             keyCode: 13,
@@ -145,7 +148,7 @@ recognition.onresult = (event) => {
         });
 
         el.dispatchEvent(e);
-        toggleRecognition();
+        //toggleRecognition();
 
         return;
     }
@@ -173,6 +176,15 @@ chrome.runtime.onMessage.addListener((request) => {
     }
 });
 
+function startRotating() {
+    button.style.animation = "rotate 2s linear infinite";
+}
+
+// Function to stop rotating animation
+function stopRotating() {
+    button.style.animation = "none";
+}
+
 function toggleRecognition() {
   console.log("toggle");
   if (!recognition.manualStop) {
@@ -182,6 +194,7 @@ function toggleRecognition() {
       // Shrink the button
       button.style.width = "50px";
       button.style.height = "50px";
+      stopRotating();
   } else {
       recognition.manualStop = false;
       recognition.start();
@@ -189,6 +202,7 @@ function toggleRecognition() {
       // Grow the button
       button.style.width = "60px";
       button.style.height = "60px";
+      startRotating();
   }
 }
 
@@ -202,6 +216,8 @@ function sendSpeechToFlask(text){
     })
         .then(response => response.json())
         .then(data => {
+            const utterance = new SpeechSynthesisUtterance(data['text']);
+            speechSynthesis.speak(utterance);
             console.log('Response from Flask:', data);
         })
         .catch(error=> console.error('Error:', error));

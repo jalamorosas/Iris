@@ -3,7 +3,7 @@ async function toggleSpeechToText() {
     chrome.tabs.sendMessage(activeTab.id, { command: "toggleRecognition" });
     chrome.scripting.executeScript({
       target: { tabId: activeTab.id },
-      function: function() {
+      function: function() {        
         const button = document.getElementById("speechToTextButton");
         if (button) {
           button.style.display = "block";

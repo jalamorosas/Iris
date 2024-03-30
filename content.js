@@ -138,7 +138,10 @@ recognition.onresult = (event) => {
     const transcript = event.results[event.results.length - 1][0].transcript;
     console.log(transcript);
     // Check if the send keyword is included
-    if (transcript.toLowerCase().includes("stop")) {
+    if ( transcript.toLowerCase().includes("done") || transcript.toLowerCase().includes("stop")){
+        return toggleRecognition();
+    }
+    if (transcript.toLowerCase().includes("submit")) {
         toggleRecognition();
         const el = document.activeElement;
         const e = new KeyboardEvent("keydown", {
@@ -156,8 +159,29 @@ recognition.onresult = (event) => {
     //var textToSpeak = prompt("wyoyoy");
     //chrome.runtime.sendMessage({ action: "speak", text: "ell" });
     //chrome.tts.speak("hello");
-    insertTextAtCursor(transcript);
-    sendSpeechToFlask(transcript);
+    if(transcript.toLowerCase().includes("cursor")){
+        let cursorIndex = transcript.toLowerCase().indexOf("cursor");
+
+        if (cursorIndex !== -1) {
+            let remainingString = transcript.substring(cursorIndex + "cursor".length + 1);
+            console.log(remainingString);
+            insertTextAtCursor(remainingString);
+        } else {
+            console.log("The word 'cursor' is not found in the transcript.");
+        }
+    }
+    if(transcript.toLowerCase().includes("go to")){
+        let cursorIndex = transcript.toLowerCase().indexOf("go to");
+
+        if (cursorIndex !== -1) {
+            let remainingString = transcript.substring(cursorIndex);
+            console.log(remainingString);
+            sendSpeechToFlask(remainingString);
+        } else {
+            //console.log("The word 'go to' is not found in the transcript.");
+        }
+    }
+    //sendSpeechToFlask(transcript);
 };
 
 recognition.onend = () => {
@@ -167,6 +191,9 @@ recognition.onend = () => {
             recognition.start();
             console.log("Ending recording");
         }, 100);
+    }else{
+        const utterance = new SpeechSynthesisUtterance('Goobye!');
+        speechSynthesis.speak(utterance);
     }
 };
 
@@ -188,6 +215,7 @@ function stopRotating() {
 function toggleRecognition() {
   console.log("toggle");
   if (!recognition.manualStop) {
+
       recognition.manualStop = true;
       recognition.stop();
       button.style.background = "#000";
@@ -196,6 +224,8 @@ function toggleRecognition() {
       button.style.height = "50px";
       stopRotating();
   } else {
+ 
+    
       recognition.manualStop = false;
       recognition.start();
       button.style.background = "#f00";

@@ -23,7 +23,7 @@ def generate_text():
     data = request.json
     text = data.get('text')
     print("Received text: " + text)
-    Iris.loop(text)
+    #Iris.loop(text)
     return jsonify(
         {
         'text': 'hello'

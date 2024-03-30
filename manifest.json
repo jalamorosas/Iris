@@ -9,7 +9,14 @@
         "tabs",
         "scripting",
         "commands",
-        "tts"
+        "storage",
+        "contextMenus",
+        "notifications",
+        "webNavigation",
+        "webRequest",
+        "webRequestBlocking",
+        "identity",
+        "management"
     ],
     "action": {
       "default_title": "Toggle Speech to Text"

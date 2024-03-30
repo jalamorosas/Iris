@@ -17,6 +17,8 @@ async function toggleSpeechToText() {
   });
  
   chrome.commands.onCommand.addListener((command) => {
+    const utterance = new SpeechSynthesisUtterance(' yo yo yo');
+     speechSynthesis.speak(utterance);
     if (command === "toggle_speech_to_text") {
       toggleSpeechToText();
     }

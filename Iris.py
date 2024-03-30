@@ -164,7 +164,7 @@ def get_selenium_code(prompt, webpage_content, error_message=None):
         print("No code found in the response")
         return ""
     
-def main(prompt_str):
+def loop(prompt_str):
 # Main loop to prompt for actions and execute generated Selenium code
     while True:
         # Prompt the user for an action
@@ -221,6 +221,8 @@ def main(prompt_str):
 
     # Quit the WebDriver
     driver.quit()
-    
+
+if __name__ == "__main__":
+    loop('go to youtube')
 
     

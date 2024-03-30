@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 #Getting user input from speech to text and creating selenium code to execute
 @app.route('/command', methods=['POST'])

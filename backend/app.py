@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import Iris
+
+from Iris import WebAgent
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -23,7 +24,8 @@ def generate_text():
     data = request.json
     text = data.get('text')
     print("Received text: " + text)
-    #Iris.loop(text)
+    webagent = WebAgent()
+    webagent.run_voice(text)
     return jsonify(
         {
         'text': 'hello'

@@ -19,11 +19,14 @@ def command():
 #Taking in some text from content via bs4, feeding into generative ai
 @app.route('/generate_text', methods=['POST'])
 def generate_text():
-    print("here")
-
+    print("generating text")
+    data = request.json
+    text = data.get('text')
+    print("Received text: " + text)
+    
     return jsonify(
         {
-        'text': 'hello'
+        'text': 'hello, returning'
         }
     )
     

@@ -11,7 +11,7 @@ def command():
     text = request.json.get('text')
 
     #Use the request text in the prompt to generate the webdriver code
-    selenium_code = prompt_engineering(text)
+    #selenium_code = prompt_engineering(text)
 
     #execute selenium code
 

@@ -142,7 +142,8 @@ recognition.onresult = (event) => {
         return toggleRecognition();
     }
     if (transcript.toLowerCase().includes("submit")) {
-        toggleRecognition();
+        console.log('here');
+        // toggleRecognition();
         const el = document.activeElement;
         const e = new KeyboardEvent("keydown", {
             keyCode: 13,
@@ -151,7 +152,7 @@ recognition.onresult = (event) => {
         });
 
         el.dispatchEvent(e);
-        //toggleRecognition();
+        toggleRecognition();
 
         return;
     }
@@ -192,7 +193,9 @@ recognition.onend = () => {
             console.log("Ending recording");
         }, 100);
     }else{
-        const utterance = new SpeechSynthesisUtterance('Goobye!');
+        const phrases = ["Done!", "Here!", "You're welcome!"];
+        const randomIndex = Math.floor(Math.random() * phrases.length);
+        const utterance = new SpeechSynthesisUtterance(phrases[randomIndex]);
         speechSynthesis.speak(utterance);
     }
 };

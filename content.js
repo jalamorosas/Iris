@@ -193,7 +193,7 @@ function toggleRecognition() {
 }
 
 function sendSpeechToFlask(text){
-    fetch('http://127.0.0.1:5000/generate_text', {
+    fetch('http://127.0.0.1:5001/generate_text', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -201,8 +201,8 @@ function sendSpeechToFlask(text){
         body: JSON.stringify({ text })
     })
         .then(response => response.json())
-        .then(response => {
-            console.log('Response from Flask:',data);
+        .then(data => {
+            console.log('Response from Flask:', data);
         })
         .catch(error=> console.error('Error:', error));
 }

@@ -138,7 +138,7 @@ recognition.onresult = (event) => {
     const transcript = event.results[event.results.length - 1][0].transcript;
     console.log(transcript);
     // Check if the send keyword is included
-    if (transcript.toLowerCase().includes("submit")) {
+    if (transcript.toLowerCase().includes("stop")) {
         toggleRecognition();
         const el = document.activeElement;
         const e = new KeyboardEvent("keydown", {
